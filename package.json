@@ -1,0 +1,33 @@
+{
+  "name": "DiscordBOT",
+  "version": "1.0.0",
+  "description": "",
+  "main": "TESTE.js",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "discord.js": "^11.4.2",
+    "dotenv": "^8.1.0",
+    "moment": "^2.24.0",
+    "mysql2": "^1.7.0",
+    "sequelize": "^5.18.1",
+    "sequelize-cli": "^5.5.1",
+    "sucrase": "^3.10.1"
+  },
+  "devDependencies": {
+    "eslint": "^6.3.0",
+    "eslint-config-airbnb-base": "^14.0.0",
+    "eslint-config-prettier": "^6.2.0",
+    "eslint-plugin-import": "^2.18.2",
+    "eslint-plugin-prettier": "^3.1.0",
+    "prettier": "^1.18.2"
+  },
+  "scripts": {
+    "dev": "nodemon src/server.js",
+    "build": "sucrase ./src -d ./build --transforms imports",
+    "start2": "pm2 start build/server.js --name TaxBR",
+    "start": "pm2-runtime start ecosystem.config.js --env production"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
