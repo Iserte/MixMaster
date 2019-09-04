@@ -73,12 +73,12 @@ class MixController {
     const embed = new RichEmbed()
       .setColor('#0099ff')
       .setAuthor(
-        'Iserte Company',
-        'https://i.imgur.com/2gFsYNH.png',
-        'https://www.iserte.com.br/'
+        'MixMaster Github',
+        'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTZ2dFbtnws3MV78IktTE66wSSZYX9kB0CjiZfHqVKihgwgJPk4',
+        'https://github.com/Iserte/MixMaster'
       )
       .setDescription('Click above to check more about us!')
-      .setThumbnail('https://i.imgur.com/bpd9aML.png')
+      .setThumbnail('https://i.imgur.com/i93mIop.jpg')
       .addBlankField()
       .addField(
         'Team A',
@@ -93,7 +93,7 @@ class MixController {
       .addBlankField()
       .setTimestamp()
       .setFooter(
-        'Bugs? contact@iserte.com.br',
+        'Bugs? gustavo@dvdsp.com.br',
         'https://cdn.discordapp.com/avatars/206075563410980866/d63207bc9766c4da9e0bf56373084711.png'
       );
     return message.channel.send(embed);

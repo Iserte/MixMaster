@@ -2,6 +2,8 @@
 
 MixMaster é um bot que permite criar times aleatórios e foi desenvolvido para uso em Mix de CSGO.
 
+[Invite by clicking here!](https://discordapp.com/api/oauth2/authorize?client_id=481948746951688212&scope=bot&permissions=8)
+
 ## Uso
 
 **Configuração inicial:**
