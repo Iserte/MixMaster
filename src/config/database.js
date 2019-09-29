@@ -1,6 +1,6 @@
 require('dotenv/config');
 
-module.exports = {
+const mysql = {
   dialect: 'mysql',
   host: process.env.DB_HOST,
   port: process.env.DB_PORT,
@@ -11,3 +11,13 @@ module.exports = {
     timestamps: true,
   },
 };
+const mongo = {
+  url: process.env.DB_MONGO_URL,
+  params: {
+    useNewUrlParser: true,
+    useFindAndModify: true,
+    useUnifiedTopology: true,
+  },
+};
+
+module.exports = { mysql, mongo };

@@ -2,7 +2,7 @@
 
 import Guild from '../models/Guild';
 
-class UserController {
+class GuildController {
   async store(message) {
     const { id, channels, roles } = message.guild;
     let mix;
@@ -91,4 +91,4 @@ class UserController {
   }
 }
 
-export default new UserController();
+export default new GuildController();

@@ -1,4 +1,5 @@
 import Sequelize from 'sequelize';
+import mongoose from 'mongoose';
 
 import Guild from '../app/models/Guild';
 
@@ -8,13 +9,19 @@ const models = [Guild];
 
 class Database {
   constructor() {
-    this.init();
+    // this.init();
+    this.mongo();
   }
 
   init() {
-    this.connection = new Sequelize(databaseConfig);
+    this.connection = new Sequelize(databaseConfig.mysql);
 
     models.map(model => model.init(this.connection));
+  }
+
+  mongo() {
+    const { url, params } = databaseConfig.mongo;
+    this.mongoConnection = mongoose.connect(url, params);
   }
 }
 
