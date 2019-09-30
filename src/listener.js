@@ -586,6 +586,7 @@ get5_events.on('change', async path => {
     const json = i;
     const { event, params } = json;
 
+    // eslint-disable-next-line no-console
     console.log(event);
 
     if (event === 'player_disconnect') await playerDisconnect(params);
@@ -603,6 +604,8 @@ get5_events.on('change', async path => {
     if (event === 'bomb_defused') await bombDefused(params);
     if (event === 'map_end') await mapEnd(params);
     if (event === 'series_end') await seriesEnd();
+    // TODO
+    // if (event === 'map_veto') await mapVeto(params);
   }
 
   // jsonArr.forEach(json => {

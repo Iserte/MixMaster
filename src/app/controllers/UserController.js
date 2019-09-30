@@ -45,6 +45,34 @@ class UserController {
 
     return user;
   }
+
+  async teste(message) {
+    const mirage = await message.guild.emojis.find(
+      emoji => emoji.name === 'pin_mirage'
+    );
+    const inferno = await message.guild.emojis.find(
+      emoji => emoji.name === 'pin_inferno'
+    );
+    const overpass = await message.guild.emojis.find(
+      emoji => emoji.name === 'pin_overpass'
+    );
+    const nuke = await message.guild.emojis.find(
+      emoji => emoji.name === 'pin_nuke'
+    );
+    const train = await message.guild.emojis.find(
+      emoji => emoji.name === 'pin_train'
+    );
+    const dust = await message.guild.emojis.find(
+      emoji => emoji.name === 'pin_dust'
+    );
+    const cache = await message.guild.emojis.find(
+      emoji => emoji.name === 'pin_cache'
+    );
+
+    return message.channel.send(
+      `${mirage} • Mirage ${inferno} • Inferno ${overpass} • Overpass ${nuke} • Nuke ${train} • Train ${dust} • Dust II ${cache} • Cache`
+    );
+  }
 }
 
 export default new UserController();

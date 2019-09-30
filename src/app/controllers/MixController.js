@@ -136,25 +136,6 @@ class MixController {
       lobbyMembers.get(member).setVoiceChannel(teamBChannel.id);
     });
 
-    await writeFileSync(
-      `${process.env.SRCDS_MATCHS_PATH}b7_match.json`,
-      JSON.stringify(exampleMatch, null, '\t')
-    );
-
-    // Conecta ao rcon e envia o comando para criar a partida
-    const rcon = new Rcon(
-      process.env.RCON_HOST,
-      process.env.RCON_PORT,
-      process.env.RCON_PASSWORD
-    );
-    await rcon.connect();
-    rcon.on('auth', async () => {
-      await rcon.send(
-        'get5_loadmatch addons/sourcemod/configs/get5/b7_match.json'
-      );
-      await rcon.disconnect();
-    });
-
     const embed = new RichEmbed()
       .setColor('#55acee')
       .setAuthor(
@@ -188,10 +169,143 @@ class MixController {
       );
     const messageSend = await message.channel.send(embed);
 
+    const emojis = [];
+
+    const mirage = await message.guild.emojis.find(
+      emoji => emoji.name === 'pin_mirage'
+    );
+    emojis.push(mirage);
+    const inferno = await message.guild.emojis.find(
+      emoji => emoji.name === 'pin_inferno'
+    );
+    emojis.push(inferno);
+    const overpass = await message.guild.emojis.find(
+      emoji => emoji.name === 'pin_overpass'
+    );
+    emojis.push(overpass);
+    const nuke = await message.guild.emojis.find(
+      emoji => emoji.name === 'pin_nuke'
+    );
+    emojis.push(nuke);
+    const train = await message.guild.emojis.find(
+      emoji => emoji.name === 'pin_train'
+    );
+    emojis.push(train);
+    const dust = await message.guild.emojis.find(
+      emoji => emoji.name === 'pin_dust'
+    );
+    emojis.push(dust);
+    const cache = await message.guild.emojis.find(
+      emoji => emoji.name === 'pin_cache'
+    );
+    emojis.push(cache);
+
+    // eslint-disable-next-line no-restricted-syntax
+    for (const emoji of emojis) {
+      // eslint-disable-next-line no-await-in-loop
+      await messageSend.react(emoji.id);
+    }
+
+    await message.channel.send(
+      `${mirage} • Mirage ${inferno} • Inferno ${overpass} • Overpass ${nuke} • Nuke ${train} • Train ${dust} • Dust II ${cache} • Cache`
+    );
+
     const { id: channelID } = messageSend.channel;
     const { id: messageID } = messageSend;
 
     await Message.create({ channelID, messageID });
+
+    const collector = messageSend.createReactionCollector(
+      reaction => {
+        return (
+          reaction.emoji === mirage ||
+          reaction.emoji === inferno ||
+          reaction.emoji === overpass ||
+          reaction.emoji === nuke ||
+          reaction.emoji === train ||
+          reaction.emoji === dust ||
+          reaction.emoji === cache
+        );
+      },
+      {
+        time: 10000,
+      }
+    );
+
+    let mirageCount = 0;
+    let infernoCount = 0;
+    let overpassCount = 0;
+    let nukeCount = 0;
+    let trainCount = 0;
+    let dustCount = 0;
+    let cacheCount = 0;
+
+    collector.on('collect', reaction => {
+      // eslint-disable-next-line no-console
+      console.log(reaction.emoji.name);
+      if (reaction.emoji === mirage) mirageCount += 1;
+      if (reaction.emoji === inferno) infernoCount += 1;
+      if (reaction.emoji === overpass) overpassCount += 1;
+      if (reaction.emoji === nuke) nukeCount += 1;
+      if (reaction.emoji === train) trainCount += 1;
+      if (reaction.emoji === dust) dustCount += 1;
+      if (reaction.emoji === cache) cacheCount += 1;
+    });
+
+    collector.on('end', async () => {
+      const maps = [];
+      const maxVote = Math.max(
+        mirageCount,
+        infernoCount,
+        overpassCount,
+        nukeCount,
+        trainCount,
+        dustCount,
+        cacheCount
+      );
+
+      if (mirageCount === maxVote) maps.push('de_mirage');
+      if (infernoCount === maxVote) maps.push('de_inferno');
+      if (overpassCount === maxVote) maps.push('de_overpass');
+      if (nukeCount === maxVote) maps.push('de_nuke');
+      if (trainCount === maxVote) maps.push('de_train');
+      if (dustCount === maxVote) maps.push('de_dust2');
+      if (cacheCount === maxVote) maps.push('de_cache');
+
+      const selectedMap = maps[Math.floor(Math.random() * maps.length)];
+
+      exampleMatch.maplist = [selectedMap];
+
+      const logField = embed.fields[0];
+      const textMessage = `\`\`\`
+      |
+      |🏁 [${selectedMap}] Mapa escolhido
+      |\`\`\``;
+
+      logField.value = textMessage;
+
+      messageSend.edit(new RichEmbed(embed));
+
+      // Cria o arquivo com as configuracoes da partida
+      await writeFileSync(
+        `${process.env.SRCDS_MATCHS_PATH}b7_match.json`,
+        JSON.stringify(exampleMatch, null, '\t')
+      );
+
+      // Conecta ao rcon e envia o comando para criar a partida
+      const rcon = new Rcon(
+        process.env.RCON_HOST,
+        process.env.RCON_PORT,
+        process.env.RCON_PASSWORD
+      );
+      await rcon.connect();
+      rcon.on('auth', async () => {
+        await rcon.send(
+          'get5_loadmatch addons/sourcemod/configs/get5/b7_match.json'
+        );
+        await rcon.disconnect();
+      });
+    });
 
     return true;
   }
