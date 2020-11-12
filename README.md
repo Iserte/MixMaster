@@ -23,3 +23,6 @@ Dispara a função que move todos os jogadores de volta para o canal `Lobby`.
 ## Dúvidas e Sugestões
 
 Sinta-se a vontade para entrar em contato no email gustavo@dvdsp.com.br.
+
+## Thanks to
+www.openode.io
